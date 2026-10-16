@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package racehub_proto;
+option go_package = "pkg/proto/racehub";
+
+message Car {
+    int32 car_index = 1;
+    uint64 timestamp = 2;
+    float distance = 3;
+    float speed = 4;
+    float throttle = 5;
+    float brake = 6;
+    float clutch = 7;
+    float engine_rpm = 8;
+    int32 gear = 9;
+    float steering_angle = 10;
+    float lap_time = 11;
+    float lap_distance = 12;
+    float total_distance = 13;
+    float fuel = 14;
+    float fuel_capacity = 15;
+    float wheel_speed_fl = 16;
+    float wheel_speed_fr = 17;
+    float wheel_speed_rl = 18;
+    float wheel_speed_rr = 19;
+    float tyre_slip_angle_fl = 20;
+    float tyre_slip_angle_fr = 21;
+    float tyre_slip_angle_rl = 22;
+    float tyre_slip_angle_rr = 23;
+    float tyre_slip_ratio_fl = 24;
+    float tyre_slip_ratio_fr = 25;
+    float tyre_slip_ratio_rl = 26;
+    float tyre_slip_ratio_rr = 27;
+    float tyre_surface_temperature_fl = 28;
+    float tyre_surface_temperature_fr = 29;
+    float tyre_surface_temperature_rl = 30;
+    float tyre_surface_temperature_rr = 31;
+    float tyre_inner_temperature_fl = 32;
+    float tyre_inner_temperature_fr = 33;
+    float tyre_inner_temperature_rl = 34;
+    float tyre_inner_temperature_rr = 35;
+    float tyre_pressure_fl = 36;
+    float tyre_pressure_fr = 37;
+    float tyre_pressure_rl = 38;
+    float tyre_pressure_rr = 39;
+    float tyre_weight_fl = 40;
+    float tyre_weight_fr = 41;
+    float tyre_weight_rl = 42;
+    float tyre_weight_rr = 43;
+    float brake_temperature_fl = 44;
+    float brake_temperature_fr = 45;
+    float brake_temperature_rl = 46;
+    float brake_temperature_rr = 47;
+    int32 lap_number = 48;
+}
+
+enum WeatherCondition {
+    UNKNOWN = 0;
+    CLEAR = 1;
+    LIGHT_CLOUDS = 2;
+    OVERCAST = 3;
+    LIGHT_RAIN = 4;
+    HEAVY_RAIN = 5;
+    STORM = 6;
+  }
+
+message Session {
+    string session_id = 1;
+    string series = 2;
+    string event_name = 3;
+    string session_type = 4;
+    int32 session_duration = 5;
+    float session_time_elapsed = 6;
+    int32 time_of_day = 7;
+    string track_name = 8;
+    float track_length = 9;
+    int32 laps_completed = 10;
+    int32 total_laps = 11;
+    float air_temperature = 12;
+    float track_temperature = 13;
+    WeatherCondition weather_condition = 14;
+    int32 rain_intensity = 15;
+    int32 snow_intensity = 16;
+    int32 fog_intensity = 17;
+    int32 wind_speed = 18;
+    int32 wind_direction = 19;
+}
+
+message Participant {
+    int32 participant_index = 1;
+    string driver_name = 2;
+    string abbreviation = 3;
+    int32 car_number = 4;
+    string team_name = 5;
+}
+
+message Telemetry {
+    repeated Car cars = 1;
+    repeated Participant participants = 2;
+    Session session = 3;
+}

@@ -1,0 +1,58 @@
+name: Build Application
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+        include:
+          - os: windows-latest
+            output_name: udp-emitter.exe
+            artifact_name: udp-emitter-windows
+          - os: macos-latest
+            output_name: udp-emitter
+            artifact_name: udp-emitter-macos
+            
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+
+    - name: Install dependencies
+      run: |
+        go mod download
+        
+    - name: Install Fyne dependencies (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install gcc
+        brew install xquartz
+        
+    - name: Install Fyne dependencies (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        choco install mingw
+        choco install msys2
+
+    - name: Build
+      run: |
+        mkdir -p artifacts
+        go build -o artifacts/${{ matrix.output_name }}
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.artifact_name }}
+        path: artifacts/${{ matrix.output_name }} 
